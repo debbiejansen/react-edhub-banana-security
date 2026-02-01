@@ -1,13 +1,34 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import axios from 'axios';
 
 function SignIn() {
     const { login } = useContext(AuthContext);
 
-    function handleSubmit(e) {
+    // Novi project-id:
+    // {
+    // 'novi-education-project-id': '1a3cf68c-7efb-4295-a36a-681e9ea8ee2b'
+    // }
+
+
+    async function handleSubmit(e) {
         e.preventDefault();
-        login();
+        try {
+            const response = await axios.post('https://novi-backend-api-wgsgz.ondigitalocean.app/api/login', {
+                email: 'regular.user@example.com',
+                password: 'regular123',
+            }, {
+                headers: {
+                    'novi-education-project-id': '1a3cf68c-7efb-4295-a36a-681e9ea8ee2b',
+                }
+            });
+
+            login(response.data);
+        } catch(e) {
+            console.error(e);
+        }
+
     }
 
     return (

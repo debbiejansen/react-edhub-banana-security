@@ -10,11 +10,17 @@ function AuthContextProvider({ children }) {
     });
     const navigate = useNavigate();
 
-    function login() {
+    function login(userDetails) {
+        localStorage.setItem('token', userDetails.token);
+        // tokens in de local storage zetten. In de state wordt deze met elke refresh verwijdert. Ook maar op 1 plaats opslaan
+
         console.log('Gebruiker is ingelogd!');
         toggleAuth({
             isAuth: true,
-            user: 'fakeuseremail@novi.nl',
+            user: {
+                email: userDetails.user.email,
+                roles: userDetails.user.roles,
+            },
         });
         navigate('/profile');
     }
